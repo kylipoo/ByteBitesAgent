@@ -1,0 +1,39 @@
+@startuml ByteBites
+
+skinparam classAttributeIconSize 0
+
+class Customer {
+    +name : String
+    +purchase_history : List<Transaction>
+}
+
+class FoodItem {
+    +name : String
+    +price : float
+    +category : String
+    +popularity_rating : float
+}
+
+class MainCourse {
+}
+
+class Dessert {
+}
+
+class Drink {
+}
+
+class Transaction {
+    +items : List<FoodItem>
+    +add_item(item : FoodItem) : void
+    +get_total() : float
+}
+
+FoodItem <|-- MainCourse
+FoodItem <|-- Dessert
+FoodItem <|-- Drink
+
+Customer "1" --> "*" Transaction : purchase_history
+Transaction "*" o-- "*" FoodItem : items
+
+@enduml
