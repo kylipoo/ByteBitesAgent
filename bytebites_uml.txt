@@ -1,40 +1,28 @@
 
-                    +---------------------------+
-                    |         Customer          |
-                    +---------------------------+
-                    | - name: str               |
-                    | - purchase_history:       |
-                    |   list[Transaction]       |
-                    +---------------------------+
-                                 | 1
-                                 | places
-                                 | *
-                                 v
-+---------------------------+         +---------------------------+
-|       Transaction         | * --- 1 |           Menu            |
-+---------------------------+         +---------------------------+
-| - items: list[FoodItem]   |         | - items: list[FoodItem]   |
-| - total: float            |         +---------------------------+
-+---------------------------+         | + filter_by_category(     |
-| + add_item(item: FoodItem)|         |     cat: str)             |
-| + get_total(): float      |         +---------------------------+
-+---------------------------+                    |
-             |                                   | contains
-             |         *                         |
-             +-----------------------------------+
-                                 |
-                                 v
-                    +---------------------------+
-                    |         FoodItem          |
-                    +---------------------------+
-                    | - name: str               |
-                    | - price: float            |
-                    | - category: str           |
-                    | - popularity_rating: float|
-                    +---------------------------+
-                                 ^
-              ___________________|___________________
-             |                   |                   |
-+---------------------+ +-------------------+ +-------------------+
-|      MainCourse     | |      Dessert      | |       Drink       |
-+---------------------+ +-------------------+ +-------------------+
++---------------------------+          +---------------------------+
+|         Customer          |          |           Menu            |
++---------------------------+          +---------------------------+
+| - name: str               |          | - items: list[FoodItem]   |
+| - purchase_history:       |          +---------------------------+
+|   list[Transaction]       |          | + filter_by_category(     |
++---------------------------+          |     cat: str): list       |
+             | 1                        +---------------------------+
+             |                                      | 1
+             | places                               | contains
+             |                                      |
+             | *                                    | *
+             v                                      v
++---------------------------+          +---------------------------+
+|       Transaction         |          |         FoodItem          |
++---------------------------+          +---------------------------+
+| - items: list[FoodItem]   | *------> | - name: str               |
+| - total: float            | includes | - price: float            |
++---------------------------+          | - category: str           |
+| + add_item(item: FoodItem)|          | - popularity_rating: float|
+| + get_total(): float      |          +---------------------------+
++---------------------------+
+
+Relationships:
+  Customer  1 ----< places >---- * Transaction
+  Menu      1 ----< contains >-- * FoodItem
+  Transaction * --< includes >-- * FoodItem
